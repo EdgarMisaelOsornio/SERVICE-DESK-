@@ -1,4 +1,4 @@
-import { baseOficinas } from "/data/baseOficinas.js";
+import { baseOficinas } from "../data/baseOficinas.js";
 
 export function cargarSelectDirecciones(listaDirecciones) {
     const select = document.getElementById("filtroDireccion");
