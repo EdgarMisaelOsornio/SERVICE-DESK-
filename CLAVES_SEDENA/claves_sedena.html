@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Generador de Claves Corporativas y Citas Médicas</title>
+  <meta name="description" content="Generador automático de claves corporativas y usuarios para citas médicas">
+  <meta name="theme-color" content="#007bff">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <button class="nav-btn" onclick="history.back()">⬅ Regresar una página</button>
+  <a class="nav-btn" href="../inicio_servicedesk.html">🏠 Volver al inicio</a>
+  
+  <div class="container">
+    <header>
+      <h1>Generador de Claves Corporativas</h1>
+      <p class="subtitle">Crea usuarios y contraseñas automáticamente para cuentas corporativas y citas médicas</p>
+    </header>
+
+    
+
+    <div class="card" role="region" aria-labelledby="cardTitle">
+      <h2 id="cardTitle" class="visually-hidden">Formulario de generación</h2>
+
+      <div id="loaderBar" class="loader-row">
+        <div id="loadStatus" class="status-message">Iniciando...</div>
+        <div id="spinner" class="spinner" aria-hidden="true"></div>
+      </div>
+
+      <form id="generator" novalidate>
+        <fieldset>
+          <legend class="sr-only">Selección de agencia</legend>
+          <label for="officeSelect">Selecciona Agencia (Nombre de Agencia)</label>
+          <select id="officeSelect" aria-describedby="officeHelp" disabled>
+            <option value="">-- Cargando agencias activas... --</option>
+          </select>
+          <small id="officeHelp" class="muted">Puedes arrastrar el archivo <code>AGENCIAS.csv</code> a la zona inferior si no funciona la carga.</small>
+        </fieldset>
+
+        <fieldset class="row">
+          <legend class="sr-only">Datos del usuario</legend>
+          <div>
+            <label for="curpInput">CURP del usuario</label>
+            <input id="curpInput" name="curp" type="text" maxlength="18" placeholder="Ej: MAAR251024MMNRRTA3" inputmode="text" aria-describedby="curpHelp" />
+            <div id="curpHelp" class="helper"></div>
+          </div>
+
+          <div>
+            <label for="nameInput">Nombre completo del usuario</label>
+            <input id="nameInput" name="nombre" type="text" placeholder="Ej: RUTH MARIA ARNAIZ" aria-describedby="nameHelp" />
+            <div id="nameHelp" class="helper"></div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button id="generate" type="button" disabled>Generar</button>
+          <button id="copyAll" class="ghost" type="button">Copiar fila CSV</button>
+          <button id="downloadCsv" class="ghost" type="button">Descargar CSV</button>
+          <button id="clearBtn" class="ghost" type="button">Limpiar</button>
+        </div>
+
+        <hr />
+
+        <div class="output" id="outputArea" hidden>
+          <div class="field">
+            <div class="small">Usuario (Corporativo)</div>
+            <div id="outUser" class="generated"></div>
+          </div>
+          <div class="field">
+            <div class="small">Contraseña</div>
+            <div id="outPass" class="generated"></div>
+            
+          </div>
+          <div class="field">
+            <div class="small">Confirmación</div>
+            <div id="outConfirm" class="generated"></div>
+          </div>
+          <div class="field citas-field">
+            <div class="small">Usuario (Citas Médicas)</div>
+            <div id="outCitasUser" class="generated"></div>
+            
+          </div>
+          <div class="field">
+            <div class="small">Descripción (Nombre Completo)</div>
+            <div id="outDesc" class="generated"></div>
+          </div>
+          <div class="field">
+            <div class="small">Oficina (Número)</div>
+            <div id="outOffice" class="generated"></div>
+          </div>
+          <div class="field">
+            <div class="small">Nomenclatura (3 letras)</div>
+            <div id="outNomen" class="generated"></div>
+          </div>
+        </div>
+      </form>
+
+      <section class="csv-upload" id="csvUpload" aria-label="Subir AGENCIAS CSV">
+        <p class="muted">Arrastra y suelta <code>AGENCIAS.csv</code> aquí o usa el selector:</p>
+        <input id="fileInput" type="file" accept=".csv,text/csv" aria-label="Seleccionar archivo CSV" />
+        <div id="dropZone" class="dropzone" aria-hidden="false">Arrastra archivo aquí</div>
+      </section>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
