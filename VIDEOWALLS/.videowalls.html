@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Buscador y Organizador de Videowalls - Versión Robusta</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <button class="nav-btn" onclick="history.back()">⬅ Regresar una página</button>
+  <a class="nav-btn" href="../inicio_servicedesk.html">🏠 Volver al inicio</a>
+
+<h1>Buscador y Organizador de Videowalls — Versión Robusta</h1>
+<div class="container">
+
+  <div class="section">
+    <h3>1️⃣ Buscar por nombre de oficina</h3>
+    <textarea id="solicitudes" placeholder="Ejemplo:
+[0001]MEXICO NORTE
+ACAPULCO, PAPAGAYO
+CD. JUAREZ
+NAVA"></textarea>
+
+    <div>
+      <button id="btnBuscar" onclick="buscarPorNombre()">🔍 Buscar por nombre</button>
+      <button id="btnCancelar" onclick="cancelarBusqueda()" disabled>✖ Cancelar</button>
+    </div>
+
+    <div id="progresoBusqueda" style="margin-top:10px; font-size:14px;"></div>
+    <div class="progressBar" id="barraProgreso" style="display:none;"><i id="barraProgresoFill"></i></div>
+
+    <div id="resultadoNombres" style="margin-top:12px;"></div>
+  </div>
+
+  <div class="section">
+    <h3>2️⃣ Buscar por archivos CSV</h3>
+    <input type="file" id="archivos" multiple accept=".csv"/>
+    <button onclick="buscarPorArchivos()">📁 Procesar archivos</button>
+    <button onclick="descargarZip()">💾 Descargar ZIP por proveedor</button>
+    <div id="resultadoArchivos"></div>
+  </div>
+
+  <div class="section">
+    <h3>3️⃣ Contactos de Proveedores</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Proveedor</th>
+          <th>Correos de Contacto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>MAX</strong></td>
+          <td>
+            <ul class="email-list">
+              <li>lilia.garcia@max-signage.mx</li>
+              <li>oscar.rivero@max-signage.com.mx</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TECNOMANIA</strong></td>
+          <td>
+            <ul class="email-list">
+              <li>diego@tecnomania.com.mx</li>
+              <li>Ds@tecnomania.com.mx</li>
+			  <li>omar@tecnomania.com.mx</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>MAGIC</strong></td>
+          <td>
+            <ul class="email-list">
+              <li>hebe@leafmagicav.com</li>
+              <li>aimee.sanchez@leafmagicav.com</li>
+              <li>jorge.garcia@leafmagicav.com</li>
+              <li>desing@leafmagicav.com</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>STRATECH</strong></td>
+          <td>
+            <ul class="email-list">
+              <li>soporte@stratech.digital</li>
+              <li>nolvera@stratech.digital</li>
+              <li>jcruz@stratech.digital</li>
+              <li>eposada@stratech.digital</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
