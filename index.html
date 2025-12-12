@@ -4,47 +4,141 @@
     <meta charset="UTF-8">
     <title>SERVICE DESK</title>
     <style>
+        :root {
+            --bg-color: #e3f2fd;
+            --bg-color2: #bbdefb;
+            --card-bg: #ffffff;
+            --text-color: #1a237e;
+            --btn-bg: #1e88e5;
+            --btn-bg-hover: #1565c0;
+            --btn-text: #ffffff;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        /* ===== MODO OSCURO ===== */
+        .dark-mode {
+            --bg-color: #0d1117;
+            --bg-color2: #161b22;
+            --card-bg: #1e2633;
+            --text-color: #e3e3e3;
+            --btn-bg: #3b4a60;
+            --btn-bg-hover: #59697f;
+            --btn-text: #ffffff;
+            --shadow: rgba(255,255,255,0.1);
+        }
+
+        /* ===== ESTILO GENERAL ===== */
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), var(--bg-color2));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background 0.4s ease;
+        }
+
+        /* ===== CONTENEDOR ===== */
+        .container {
+            background: var(--card-bg);
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 25px var(--shadow);
             text-align: center;
-            background-color: #f4f4f4;
-            padding-top: 60px;
+            width: 350px;
+            transition: all 0.3s ease;
         }
+
         h1 {
-            margin-bottom: 40px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: var(--text-color);
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
+
+        /* ===== BOTONES ===== */
         .btn {
             display: block;
-            width: 250px;
-            margin: 15px auto;
-            padding: 15px;
-            background-color: #007bff;
-            color: white;
+            width: 100%;
+            margin: 12px 0;
+            padding: 14px;
             font-size: 18px;
-            border: none;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 10px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            transition: 0.3s ease;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--btn-bg-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ===== BOTÓN DE MODO OSCURO ===== */
+        .toggle-dark {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--btn-bg);
+            padding: 10px 14px;
             border-radius: 8px;
             cursor: pointer;
-            text-decoration: none;
+            color: var(--btn-text);
+            font-weight: bold;
+            border: none;
+            transition: 0.3s ease;
         }
-        .btn:hover {
-            background-color: #0056b3;
+
+        .toggle-dark:hover {
+            background: var(--btn-bg-hover);
         }
     </style>
 </head>
+
 <body>
-    <h1>SERVICE DESK</h1>
 
-    <a class="btn" href="./CLAVES_ETRANSPORTE/claves_etransporte.html">
-        CLAVES ETRANSPORTE
-    </a>
+    <!-- BOTÓN PARA ACTIVAR MODO OSCURO -->
+    <button class="toggle-dark" onclick="toggleDarkMode()">🌙</button>
 
-    <a class="btn" href="./CLAVES_SEDENA/claves_sedena.html">
-        CLAVES SEDENA
-    </a>
+    <div class="container">
+        <h1>SERVICE DESK</h1>
 
-    <a class="btn" href="./VIDEOWALLS/videowalls.html">
-        VIDEOWALLS
-    </a>
+        <a class="btn" href="./CLAVES_ETRANSPORTE/claves_etransporte.html">
+            CLAVES E-TRANSPORTE
+        </a>
+
+        <a class="btn" href="./CLAVES_SEDENA/claves_sedena.html">
+            CLAVES SEDENA
+        </a>
+
+        <a class="btn" href="./VIDEOWALLS/videowalls.html">
+            VIDEO-WALLS
+        </a>
+    </div>
+
+    <script>
+        // Cargar preferencia guardada
+        if (localStorage.getItem("dark-mode") === "enabled") {
+            document.body.classList.add("dark-mode");
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+
+            // Guardar preferencia
+            if (document.body.classList.contains("dark-mode")) {
+                localStorage.setItem("dark-mode", "enabled");
+            } else {
+                localStorage.setItem("dark-mode", "disabled");
+            }
+        }
+    </script>
 
 </body>
 </html>
