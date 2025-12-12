@@ -1,4 +1,4 @@
-import { baseOficinas, cargarExcelBuscador } from '/data/baseOficinas.js';
+import { baseOficinas, cargarExcelBuscador } from '../data/baseOficinas.js';
 
 export function iniciarBuscador() {
 
