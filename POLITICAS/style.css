@@ -1,0 +1,284 @@
+:root{
+  --ink:#111827;
+  --line:#111827;
+  --bg:#f4f6fb;
+}
+
+/* ===== APP ===== */
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:"Times New Roman", Times, serif;
+  color:var(--ink);
+}
+.wrap{
+  max-width:1200px;
+  margin:18px auto;
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:14px;
+  padding:0 14px;
+}
+.panel,.doc{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 10px 26px rgba(0,0,0,.06);
+}
+.panel{padding:14px}
+.panel h2{
+  margin:0 0 10px;
+  font-family:system-ui,Segoe UI,Arial;
+  font-size:16px;
+}
+.hint{
+  font-family:system-ui,Segoe UI,Arial;
+  font-size:12px;
+  color:#6b7280;
+  margin-top:10px;
+  line-height:1.35;
+}
+.btnsTop{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:10px 0 12px;
+  justify-content:flex-end;
+}
+button{
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:system-ui,Segoe UI,Arial;
+}
+.primary{background:#1f4fd6;color:#fff}
+.ghost{background:#eef3ff;color:#1f4fd6}
+.danger{background:#ffecec;color:#b42318}
+
+.forms{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-height: calc(100vh - 170px);
+  overflow:auto;
+  padding-right:6px;
+}
+.formCard{
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:12px;
+  background:#fff;
+}
+.formHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+  font-family:system-ui,Segoe UI,Arial;
+}
+.formHead .title{
+  font-weight:800;
+  font-size:13px;
+}
+.formHead .miniBtns{
+  display:flex;
+  gap:8px;
+}
+.mini{
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:800;
+}
+label{
+  display:block;
+  font-family:system-ui,Segoe UI,Arial;
+  font-size:12px;
+  margin:8px 0 6px;
+  color:#4b5563;
+}
+input, select{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid #d7dbe7;
+  border-radius:10px;
+  font-family:system-ui,Segoe UI,Arial;
+  font-size:14px;
+  background:#fff;
+}
+
+/* ===== VISTA DOCUMENTO ===== */
+.doc{padding:14px}
+.sheets{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.sheet{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 10px 26px rgba(0,0,0,.06);
+  padding:22px 28px;
+}
+.top-title{
+  text-align:center;
+  font-weight:700;
+  font-size:18px;
+  letter-spacing:.3px;
+}
+.title-line{
+  border-top:2px solid var(--line);
+  width:78%;
+  margin:10px auto 0;
+}
+.meta-row{
+  display:flex;
+  justify-content:space-between;
+  margin-top:18px;
+  font-size:14px;
+}
+.body{margin-top:18px;font-size:14px}
+.bold{font-weight:700}
+.table{
+  width:100%;
+  border-collapse:collapse;
+  margin:10px 0 14px;
+  font-size:13px;
+}
+.table th,.table td{
+  border:1px solid var(--line);
+  padding:5px 6px;
+  text-align:center;
+}
+.sign-block{
+  text-align:center;
+  margin-top:36px;
+}
+.divider{
+  margin:18px 0;
+  border-top:1px dashed #111827;
+}
+.pol-title{
+  text-align:center;
+  font-weight:700;
+  font-size:13px;
+  margin:10px 0 6px;
+}
+.pol-text{
+  font-size:9.6px;
+  line-height:1.2;
+  text-align:justify;
+}
+.footer-line{
+  margin:26px auto 6px;
+  border-top:1px solid #111827;
+  width:55%;
+}
+.footer-note{
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+}
+
+/* =========================================================
+   EXPORT PDF (CARTA)
+   ========================================================= */
+.pdf-export-host{
+  position:fixed;
+  left:-3000px;
+  top:0;
+  width:816px;
+  background:#fff;
+  z-index:-1;
+}
+.pdf-export{ width:816px; }
+.pdf-export .sheets{ gap:0; }
+.pdf-export .sheet{
+  width:816px;
+  height:1056px;
+  box-sizing:border-box;
+  padding:72px;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+  margin:0;
+  overflow:hidden;
+  page-break-after:always;
+  break-after:page;
+}
+.pdf-export .sheet:last-child{
+  page-break-after:auto;
+  break-after:auto;
+}
+
+/* =========================================================
+   IMPRESIÓN REAL
+   ========================================================= */
+
+@page{
+  size: letter;
+  margin: 15mm;
+}
+
+@media print {
+
+  body{ background:#fff !important; }
+  .wrap{
+    display:block !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+  .panel{ display:none !important; }
+
+  .doc{
+    border:none !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  .sheets{ gap:0 !important; }
+  .sheet{
+    width:100% !important;
+    max-width:190mm !important;
+    margin:0 auto !important;
+    border:none !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+    padding:0 !important;
+    page-break-after:always;
+    break-after:page;
+  }
+  .sheet:last-child{
+    page-break-after:auto;
+    break-after:auto;
+  }
+
+  table, tr, th, td{
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .pdf-export-host{ display:none !important; }
+}
+.nav-btn {
+        display: inline-block;
+        margin: 10px;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .nav-btn:hover {
+        background-color: #0056b3;
+    }
