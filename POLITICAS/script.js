@@ -1,12 +1,21 @@
 let pageCount = 0;
 
 function fechaActual(){
-  const meses=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-  const f=new Date();
+  const meses = [
+    "enero","febrero","marzo","abril","mayo","junio",
+    "julio","agosto","septiembre","octubre","noviembre","diciembre"
+  ];
+  const f = new Date();
   return `Ciudad de México a ${f.getDate()} de ${meses[f.getMonth()]} de ${f.getFullYear()}`;
 }
-function $(id){ return document.getElementById(id); }
 
+function $(id){
+  return document.getElementById(id);
+}
+
+/* =========================
+   FORMULARIO
+   ========================= */
 function createFormCard(id){
   return `
     <div class="formCard" id="card-${id}">
@@ -44,6 +53,9 @@ function createFormCard(id){
   `;
 }
 
+/* =========================
+   HOJA / DOCUMENTO
+   ========================= */
 function createSheet(id){
   return `
     <div class="sheet" id="sheet-${id}">
@@ -57,7 +69,8 @@ function createSheet(id){
 
       <div class="body">
         <div style="margin:12px 0">
-          En relación con la solicitud del <span class="bold">Ticket # <span id="out-ticket-${id}"></span></span>,
+          En relación con la solicitud del 
+          <span class="bold">Ticket # <span id="out-ticket-${id}"></span></span>,
           se solicita el acceso al sistema de
           <span class="bold" id="out-sistema-${id}">E-TRANSPORTE</span>
           le proporcionamos la siguiente información:
@@ -82,8 +95,13 @@ function createSheet(id){
           </tbody>
         </table>
 
-        <div>Al ingresar por primera vez se les desplegará una pantalla en donde deberá cambiar su contraseña por razones de seguridad.</div>
-        <div style="margin-top:10px">Sin más por el momento, quedamos a sus órdenes para cualquier aclaración.</div>
+        <div>
+          Al ingresar por primera vez se les desplegará una pantalla en donde deberá cambiar su contraseña por razones de seguridad.
+        </div>
+
+        <div style="margin-top:10px">
+          Sin más por el momento, quedamos a sus órdenes para cualquier aclaración.
+        </div>
 
         <div class="sign-block">
           <div>Atentamente</div><br>
@@ -94,6 +112,7 @@ function createSheet(id){
         <div class="divider"></div>
 
         <div class="pol-title">Políticas de Seguridad (Acceso Sistemas de Información)</div>
+
         <div class="pol-text">
           La información de la Empresa es uno de los activos más importantes para las operaciones diarias de la misma. Parte de la
           información es confidencial y como usuario comparte la responsabilidad de protegerla. Para contribuir a la protección de la
@@ -110,10 +129,12 @@ function createSheet(id){
           haga mal uso de su usuario será sancionado con la cancelación del mismo notificando al Gerente o Director del área el motivo de la cancelación y lo que resulte.
           <br><br>
           El mal uso de los accesos que le sean otorgados para el acceso a la información personal y confidencial contenida en los sistemas de información, puede incluso
-          hacerlo acreedor a un delito Federal por lo establecido en La Ley Federal de Protección de Datos Personales en Posesión de los Particulares, vigente.
+          hacerlo acreedor a un delito Federal por lo establecido en 
+          <strong>La Ley Federal de Protección de Datos Personales en Posesión de los Particulares</strong>, vigente.
         </div>
 
         <div class="pol-title" style="margin-top:10px;">Políticas de Contraseña</div>
+
         <div class="pol-text">
           Todos los usuarios que ingresen por primera vez al sistema deberán cambiar su contraseña. Todos los usuarios deberán cambiar su contraseña cada 30 días.
           La longitud de la contraseña será como mínimo de 5 caracteres y como máximo de 10 caracteres. La contraseña no deberá contener dígitos adyacentes, caracteres
@@ -131,6 +152,9 @@ function createSheet(id){
   `;
 }
 
+/* =========================
+   FUNCIONES
+   ========================= */
 function addPage(prefill=null){
   pageCount++;
   const id = pageCount;
@@ -162,6 +186,7 @@ function removePage(id){
   $("card-"+id)?.remove();
   $("sheet-"+id)?.remove();
 }
+
 function duplicatePage(id){
   addPage({
     solicitante: $("in-solicitante-"+id)?.value ?? "",
@@ -172,6 +197,7 @@ function duplicatePage(id){
     contrasena: $("in-contrasena-"+id)?.value ?? ""
   });
 }
+
 function clearAll(){
   document.querySelectorAll(".forms input").forEach(i => i.value = "");
   document.querySelectorAll(".forms select").forEach(s => s.value = "E-TRANSPORTE");
@@ -180,7 +206,6 @@ function clearAll(){
   }
 }
 
-/* ====== NUEVO: IMPRIMIR (en vez de descargar PDF) ====== */
 function printDoc(){
   for(let id=1; id<=pageCount; id++){
     if($("sheet-"+id)) syncPage(id);
