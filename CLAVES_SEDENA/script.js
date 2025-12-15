@@ -258,13 +258,29 @@ function copyAll() {
 
 /* ---------- DESCARGAR CSV ---------- */
 function downloadCsv() {
-  const values = OUTPUT_IDS.map(id => $(id).textContent || '');
-  const headerRow = OUTPUT_HEADERS.join(';');
-  const dataRow = values.join(';');
+  let csvText = "sep=;\r\nCampo;Valor\r\n";
 
-  const csvContent = "\ufeff" + headerRow + "\n" + dataRow;
+  for (let i = 0; i < OUTPUT_HEADERS.length; i++) {
+    const campo = OUTPUT_HEADERS[i];
+    const valor = $(OUTPUT_IDS[i]).textContent || '';
+    csvText += `${campo};${valor}\r\n`;
+  }
 
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  // 🔐 Convertir manualmente a UTF-16 LE (Excel REAL)
+  const buffer = new ArrayBuffer((csvText.length + 1) * 2);
+  const view = new Uint16Array(buffer);
+
+  // BOM UTF-16 LE
+  view[0] = 0xFEFF;
+
+  for (let i = 0; i < csvText.length; i++) {
+    view[i + 1] = csvText.charCodeAt(i);
+  }
+
+  const blob = new Blob([buffer], {
+    type: 'application/vnd.ms-excel'
+  });
+
   const link = document.createElement('a');
 
   const curpPrefix = curpInput.value.trim().substring(0, 4).toUpperCase() || 'XXXX';
@@ -278,7 +294,7 @@ function downloadCsv() {
   link.click();
   document.body.removeChild(link);
 
-  setStatus(`Archivo ${link.download} descargado.`, 'success');
+  setStatus(`Archivo ${link.download} descargado correctamente.`, 'success');
 }
 
 /* ---------- LIMPIAR (RESTAURADO) ---------- */
