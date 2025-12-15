@@ -118,3 +118,18 @@ button.ghost:hover{background:rgba(0,123,255,0.04)}
     .nav-btn:hover {
         background-color: #0056b3;
     }
+    
+      footer {
+        
+        text-align: center;
+        margin: 20px 0;
+        font-size: 15px;
+        color: #212529;
+        border: 1px solid #212529;
+        padding: 10px;
+        border-radius: 22px;
+        max-width: 500px;
+        margin-left: 750px;
+
+        
+    }
