@@ -269,6 +269,17 @@ function printDoc(){
   for(let id=1; id<=pageCount; id++){
     if($("sheet-"+id)) syncPage(id);
   }
+
+  // Tomamos datos de la primera hoja (puedes cambiar si quieres otra)
+  const sistema = $("in-sistema-1")?.value || "SISTEMA";
+  const usuario = $("in-nombre-1")?.value || "NOMBRE";
+  const ticket  = $("in-ticket-1")?.value || "TICKET";
+
+  // Limpiar caracteres no válidos para nombre de archivo
+  const safe = str => str.replace(/[\\/:*?"<>|]/g, "").trim();
+
+  document.title = `${safe(sistema)} ${safe(usuario)} Ticket#${safe(ticket)}`;
+
   window.print();
 }
 
