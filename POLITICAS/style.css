@@ -218,3 +218,11 @@ input, select{
     page-break-after:always;
   }
 }
+
+.bold {
+  font-weight: bold;
+}
+
+span[id^="out-solicitante-"] {
+  font-weight: bold;
+}

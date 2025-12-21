@@ -45,8 +45,20 @@ function createFormCard(id){
       <label>Nombre</label>
       <input id="in-nombre-${id}" oninput="syncPage(${id})">
 
-      <label>Usuario</label>
-      <input id="in-usuario-${id}" oninput="syncPage(${id})">
+      <!-- Usuario normal -->
+      <div id="usuario-normal-${id}">
+        <label>Usuario</label>
+        <input id="in-usuario-${id}" oninput="syncPage(${id})">
+      </div>
+
+      <!-- Usuarios cuentas corporativas -->
+      <div id="usuarios-corporativos-${id}" style="display:none;">
+        <label>Usuario Comisión</label>
+        <input id="in-usuario-comision-${id}" oninput="syncPage(${id})">
+
+        <label>Usuario Citas Médicas</label>
+        <input id="in-usuario-citas-${id}" oninput="syncPage(${id})">
+      </div>
 
       <label>Contraseña</label>
       <input id="in-contrasena-${id}" oninput="syncPage(${id})">
@@ -54,6 +66,9 @@ function createFormCard(id){
   `;
 }
 
+/* =========================
+   POLÍTICAS (ORIGINAL COMPLETO)
+   ========================= */
 function politicasHTML(){
   
   return `
@@ -109,6 +124,9 @@ function politicasHTML(){
 }
 
 
+/* =========================
+   HOJA
+   ========================= */
 function createSheet(id){
   return `
     <div class="sheet" id="sheet-${id}">
@@ -125,7 +143,7 @@ function createSheet(id){
           En relación con la solicitud del 
           <span class="bold">Ticket # <span id="out-ticket-${id}"></span></span>,
           se solicita el acceso al sistema de
-          <span class="bold" id="out-sistema-${id}">E-TRANSPORTE</span>
+          <span class="bold" id="out-sistema-${id}"></span>
           le proporcionamos la siguiente información:
         </div>
 
@@ -149,7 +167,7 @@ function createSheet(id){
           </tbody>
         </table>
 
-        <!-- Tabla cuentas corporativas, inicialmente oculta -->
+        <!-- Tabla cuentas corporativas -->
         <table class="table cuentas-table" id="cuentas-table-${id}" style="display:none;">
           <thead>
             <tr>
@@ -164,14 +182,14 @@ function createSheet(id){
             <tr>
               <td class="out-nombre" style="text-align:left;padding-left:8px;"></td>
               <td>COMISIÓN</td>
-              <td class="out-usuario"></td>
+              <td class="out-usuario-comision"></td>
               <td class="out-contrasena"></td>
               <td></td>
             </tr>
             <tr>
               <td class="out-nombre"></td>
               <td>CITAS MÉDICAS</td>
-              <td class="out-usuario"></td>
+              <td class="out-usuario-citas"></td>
               <td class="out-contrasena"></td>
               <td></td>
             </tr>
@@ -202,6 +220,8 @@ function addPage(prefill = null){
   $("in-ticket-"+id).value = prefill?.ticket ?? "";
   $("in-nombre-"+id).value = prefill?.nombre ?? "";
   $("in-usuario-"+id).value = prefill?.usuario ?? "";
+  $("in-usuario-comision-"+id).value = prefill?.usuarioComision ?? "";
+  $("in-usuario-citas-"+id).value = prefill?.usuarioCitas ?? "";
   $("in-contrasena-"+id).value = prefill?.contrasena ?? "";
 
   syncPage(id);
@@ -210,36 +230,44 @@ function addPage(prefill = null){
 function syncPage(id){
   const sistema = $("in-sistema-"+id)?.value || "E-TRANSPORTE";
 
-  const nombre     = $("in-nombre-"+id)?.value.trim() ?? "";
-  const usuario    = $("in-usuario-"+id)?.value.trim() ?? "";
-  const contrasena = $("in-contrasena-"+id)?.value.trim() ?? "";
+  const nombre = $("in-nombre-"+id)?.value ?? "";
+  const usuarioNormal = $("in-usuario-"+id)?.value ?? "";
+  const usuarioComision = $("in-usuario-comision-"+id)?.value ?? "";
+  const usuarioCitas = $("in-usuario-citas-"+id)?.value ?? "";
+  const contrasena = $("in-contrasena-"+id)?.value ?? "";
 
-  $("out-solicitante-"+id).textContent = $("in-solicitante-"+id)?.value.trim() ?? "";
-  $("out-ticket-"+id).textContent      = $("in-ticket-"+id)?.value.trim() ?? "";
-  $("out-sistema-"+id).textContent     = sistema;
-  $("out-fecha-"+id).textContent       = fechaActual();
+  $("out-solicitante-"+id).textContent = $("in-solicitante-"+id)?.value ?? "";
+  $("out-ticket-"+id).textContent = $("in-ticket-"+id)?.value ?? "";
+  $("out-sistema-"+id).textContent = sistema;
+  $("out-fecha-"+id).textContent = fechaActual();
 
-  document
-    .querySelectorAll(`#sheet-${id} .out-nombre`)
+  document.querySelectorAll(`#sheet-${id} .out-nombre`)
     .forEach(el => el.textContent = nombre);
 
-  document
-    .querySelectorAll(`#sheet-${id} .out-usuario`)
-    .forEach(el => el.textContent = usuario);
-
-  document
-    .querySelectorAll(`#sheet-${id} .out-contrasena`)
+  document.querySelectorAll(`#sheet-${id} .out-contrasena`)
     .forEach(el => el.textContent = contrasena);
 
   if(sistema === "CUENTAS CORPORATIVAS"){
     $("normal-table-"+id).style.display = "none";
     $("cuentas-table-"+id).style.display = "table";
+    $("usuario-normal-"+id).style.display = "none";
+    $("usuarios-corporativos-"+id).style.display = "block";
+
+    document.querySelectorAll(`#sheet-${id} .out-usuario-comision`)
+      .forEach(el => el.textContent = usuarioComision);
+
+    document.querySelectorAll(`#sheet-${id} .out-usuario-citas`)
+      .forEach(el => el.textContent = usuarioCitas);
   } else {
     $("normal-table-"+id).style.display = "table";
     $("cuentas-table-"+id).style.display = "none";
+    $("usuario-normal-"+id).style.display = "block";
+    $("usuarios-corporativos-"+id).style.display = "none";
+
+    document.querySelectorAll(`#sheet-${id} .out-usuario`)
+      .forEach(el => el.textContent = usuarioNormal);
   }
 }
-
 
 function removePage(id){
   $("card-"+id)?.remove();
@@ -248,12 +276,14 @@ function removePage(id){
 
 function duplicatePage(id){
   addPage({
-    solicitante: $("in-solicitante-"+id)?.value ?? "",
-    ticket: $("in-ticket-"+id)?.value ?? "",
-    sistema: $("in-sistema-"+id)?.value ?? "E-TRANSPORTE",
-    nombre: $("in-nombre-"+id)?.value ?? "",
-    usuario: $("in-usuario-"+id)?.value ?? "",
-    contrasena: $("in-contrasena-"+id)?.value ?? ""
+    solicitante: $("in-solicitante-"+id)?.value,
+    ticket: $("in-ticket-"+id)?.value,
+    sistema: $("in-sistema-"+id)?.value,
+    nombre: $("in-nombre-"+id)?.value,
+    usuario: $("in-usuario-"+id)?.value,
+    usuarioComision: $("in-usuario-comision-"+id)?.value,
+    usuarioCitas: $("in-usuario-citas-"+id)?.value,
+    contrasena: $("in-contrasena-"+id)?.value
   });
 }
 
@@ -270,14 +300,11 @@ function printDoc(){
     if($("sheet-"+id)) syncPage(id);
   }
 
-  // Tomamos datos de la primera hoja (puedes cambiar si quieres otra)
   const sistema = $("in-sistema-1")?.value || "SISTEMA";
   const usuario = $("in-nombre-1")?.value || "NOMBRE";
-  const ticket  = $("in-ticket-1")?.value || "TICKET";
+  const ticket = $("in-ticket-1")?.value || "TICKET";
 
-  // Limpiar caracteres no válidos para nombre de archivo
   const safe = str => str.replace(/[\\/:*?"<>|]/g, "").trim();
-
   document.title = `${safe(sistema)} ${safe(usuario)} Ticket#${safe(ticket)}`;
 
   window.print();
