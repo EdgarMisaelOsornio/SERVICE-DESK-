@@ -1,4 +1,4 @@
-// --- BASE DE DATOS (igual a la tuya) ---
+
 const base = [
   ["TCUS0","ACAPULCO CUAUHTEMOC SALA 1","MAGIC"],
   ["ALUS0","ACAPULCO PAPAGAYO SALA UNICA","MAGIC"],
@@ -66,7 +66,8 @@ const base = [
   ["ZACS0","ZACATECAS SALA UNICA","MAX"],
   ["APNS1","ZAPOPAN P NORTE SALA 1","MAX"],
   ["ZIHS0","ZIHUATANEJO SALA 1","MAGIC"],
-  ["SJLS0","SAN JUAN DE LOS LAGOS SALA UNICA","MAX"]
+  ["SJLS0","SAN JUAN DE LOS LAGOS SALA UNICA","MAX"],
+  ["QUERETARO CONEXION","QUERETARO SALA CONEXION","TECNOMANIA"]
 ];
 
 // --- UTILIDADES ---
@@ -96,7 +97,7 @@ function cancelarBusqueda(){
   console.log("Procesamiento abortado por cancelación.");
 }
 
-// --- BUSCAR POR NOMBRE (versión robusta) ---
+// --- BUSCAR POR NOMBRE ---
 function buscarPorNombre(){
   if(BUSQUEDA_ACTIVA){
     console.log("Ya hay una búsqueda en curso.");
@@ -148,7 +149,7 @@ function buscarPorNombre(){
   let encontradas = []; // array de objetos {buscada,nombre,proveedor}
   let noEncontradas = []; // sólo si modo normal
 
-  // procesar por batches (no bloqueante)
+  // procesar por batches
   function procesarBatch(){
     if(!BUSQUEDA_ACTIVA){
       console.log("Procesamiento abortado por cancelación.");
