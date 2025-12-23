@@ -66,9 +66,6 @@ function createFormCard(id){
   `;
 }
 
-/* =========================
-   POLÍTICAS (ORIGINAL COMPLETO)
-   ========================= */
 function politicasHTML(){
   
   return `
@@ -85,6 +82,7 @@ function politicasHTML(){
           <div>Atentamente</div><br>
           <div><b>Atención IT a Usuarios.</b></div>
           <div>Dirección de informática.</div>
+          <div> -------------------------------------------------------------------------</div>
         </div>
 
         <div class="divider"></div>
@@ -132,6 +130,7 @@ function createSheet(id){
     <div class="sheet" id="sheet-${id}">
       <div class="top-title">AUTOBUSES ESTRELLA BLANCA</div>
       <div class="title-line"></div>
+      <div class="title-line"></div>
 
       <div class="meta-row">
         <div><span id="out-solicitante-${id}"></span> :</div>
@@ -141,8 +140,8 @@ function createSheet(id){
       <div class="body">
         <div style="margin:12px 0">
           En relación con la solicitud del 
-          <span class="bold">Ticket # <span id="out-ticket-${id}"></span></span>,
-          se solicita el acceso al sistema de
+          <span class="bold">ZenDesk Ticket # <span id="out-ticket-${id}"></span>
+          </span>, se solicita el acceso al sistema de
           <span class="bold" id="out-sistema-${id}"></span>
           le proporcionamos la siguiente información:
         </div>
