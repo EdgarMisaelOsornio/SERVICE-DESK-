@@ -1,92 +1,90 @@
-import { baseOficinas, cargarExcelBuscador } from '../data/baseOficinas.js';
+import { oficinas } from "./dataStore.js";
 
 export function iniciarBuscador() {
+  const inputBuscador = document.getElementById("buscar");
+  const boxResultados = document.getElementById("resultadosBusqueda");
 
-    cargarExcelBuscador();
+  if (!inputBuscador || !boxResultados) return;
 
-    const inputBuscador = document.getElementById("buscar");
-    const boxResultados = document.getElementById("resultadosBusqueda");
+  inputBuscador.addEventListener("input", () => {
+    const raw = inputBuscador.value.trim();
+    const q = raw.toLowerCase();
 
-    if (!inputBuscador || !boxResultados) return;
+    if (!q) {
+      boxResultados.style.display = "none";
+      boxResultados.innerHTML = "";
+      return;
+    }
 
-    inputBuscador.addEventListener("input", () => {
-        const raw = inputBuscador.value.trim();
-        const q = raw.toLowerCase();
+    let qPad = null;
+    if (/^\d+$/.test(raw)) qPad = raw.padStart(4, "0");
 
-        if (q.length < 1) {
-            boxResultados.style.display = "none";
-            boxResultados.innerHTML = "";
-            return;
-        }
+    const coincidencias = oficinas.filter(item => {
+      const clave = item.clave.toLowerCase();
+      const nombre = item.nombre.toLowerCase();
+      const nom = item.nomenclatura.toLowerCase();
+      const dir = item.direccion.toLowerCase();
 
-        let qPad = null;
-        if (/^\d+$/.test(raw)) qPad = raw.padStart(4, "0");
+      if (clave.includes(q) || (qPad && clave.includes(qPad))) return true;
 
-        const coincidencias = baseOficinas.filter(item => {
-            const clave = (item.CLAVE ?? "").toString().toLowerCase();
-            const nombre = (item.NOMBRE ?? "").toString().toLowerCase();
-            const nom = (item.NOMENCLATURA ?? "").toString().toLowerCase();
-            const dir = (item.DIRECCION ?? "").toString().toLowerCase();
+      if (/^\d+$/.test(raw)) {
+        const claveSinCeros = clave.replace(/^0+/, "");
+        if (claveSinCeros.includes(raw.replace(/^0+/, ""))) return true;
+      }
 
-            if (clave.includes(q) || (qPad && clave.includes(qPad))) return true;
-
-            if (/^\d+$/.test(raw)) {
-                const claveSinCeros = clave.replace(/^0+/, "");
-                if (claveSinCeros.includes(raw.replace(/^0+/, ""))) return true;
-            }
-
-            return (
-                nombre.includes(q) ||
-                nom.includes(q) ||
-                dir.includes(q)
-            );
-        });
-
-        if (coincidencias.length === 0) {
-            boxResultados.style.display = "block";
-            boxResultados.innerHTML = `<p style="padding:10px;margin:0;">No se encontraron resultados...</p>`;
-            return;
-        }
-
-        boxResultados.style.display = "block";
-        boxResultados.innerHTML = coincidencias.map(r => `
-            <div class="search-item" data-clave="${r.CLAVE ?? ""}">
-                <b>${r.CLAVE ?? ""}</b> — ${r.NOMBRE ?? ""}
-                <br>
-                <small>${r.NOMENCLATURA ?? ""} | ${r.DIRECCION ?? ""}</small>
-            </div>
-        `).join("");
+      return (
+        nombre.includes(q) ||
+        nom.includes(q) ||
+        dir.includes(q)
+      );
     });
 
-    boxResultados.addEventListener("click", (ev) => {
-        const item = ev.target.closest(".search-item");
-        if (!item) return;
+    if (coincidencias.length === 0) {
+      boxResultados.style.display = "block";
+      boxResultados.innerHTML =
+        `<p style="padding:10px;margin:0;">No se encontraron resultados...</p>`;
+      return;
+    }
 
-        const claveSel = item.dataset.clave.padStart(4, "0");
-        const textarea = document.getElementById("oficinas");
-        const erroresEl = document.getElementById("errores");
-        const inputBuscadorEl = document.getElementById("buscar");
+    boxResultados.style.display = "block";
+    boxResultados.innerHTML = coincidencias.map(r => `
+      <div class="search-item" data-clave="${r.clave}">
+        <b>${r.clave}</b> — ${r.nombre}
+        <br>
+        <small>${r.nomenclatura} | ${r.direccion}</small>
+      </div>
+    `).join("");
+  });
 
-        const lines = textarea.value.split(/\r?\n/)
-            .map(l => l.trim())
-            .filter(Boolean);
+  boxResultados.addEventListener("click", ev => {
+    const item = ev.target.closest(".search-item");
+    if (!item) return;
 
-        const linesNorm = lines.map(l => l.padStart(4, "0"));
+    const claveSel = item.dataset.clave.padStart(4, "0");
+    const textarea = document.getElementById("oficinas");
+    const erroresEl = document.getElementById("errores");
+    const inputBuscadorEl = document.getElementById("buscar");
 
-        if (linesNorm.includes(claveSel)) {
-            erroresEl.textContent = `⚠️ La clave ${claveSel} ya existe en la lista.`;
-            setTimeout(() => erroresEl.textContent = "", 3000);
-            inputBuscadorEl.value = "";
-            boxResultados.style.display = "none";
-            return;
-        }
+    const lines = textarea.value.split(/\r?\n/)
+      .map(l => l.trim())
+      .filter(Boolean);
 
-        lines.push(claveSel);
-        textarea.value = lines.join("\n");
-        textarea.scrollTop = textarea.scrollHeight;
-        textarea.focus();
+    const linesNorm = lines.map(l => l.padStart(4, "0"));
 
-        inputBuscadorEl.value = "";
-        boxResultados.style.display = "none";
-    });
+    if (linesNorm.includes(claveSel)) {
+      erroresEl.textContent = `⚠️ La clave ${claveSel} ya existe en la lista.`;
+      setTimeout(() => erroresEl.textContent = "", 3000);
+      inputBuscadorEl.value = "";
+      boxResultados.style.display = "none";
+      return;
+    }
+
+    lines.push(claveSel);
+    textarea.value = lines.join("\n");
+    textarea.scrollTop = textarea.scrollHeight;
+    textarea.focus();
+
+    inputBuscadorEl.value = "";
+    boxResultados.style.display = "none";
+  });
 }

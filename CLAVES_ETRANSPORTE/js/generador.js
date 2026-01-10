@@ -1,14 +1,32 @@
-import { oficinasMap } from '../data/oficinasMap.js';
-import { direccionesMap } from '../data/direccionesMap.js';
+import { oficinas } from "./dataStore.js";
 
 let resultados = [];
 
+/**
+ * Rellena la clave de usuario a 7 dígitos
+ */
 function pad7(n) {
   return n.toString().padStart(7, "0");
 }
 
+/**
+ * Normaliza SOLO para búsqueda:
+ * - mayúsculas
+ * - sin espacios
+ * - sin ceros a la izquierda
+ */
+function normalizarParaBusqueda(valor) {
+  return String(valor)
+    .trim()
+    .toUpperCase()
+    .replace(/^0+/, "");
+}
+
 export function generar() {
-  const oficinas = document.getElementById("oficinas").value.trim().split("\n");
+  const lista = document.getElementById("oficinas").value
+    .trim()
+    .split(/\r?\n/);
+
   const usuario = document.getElementById("usuario").value.trim();
   const puesto = document.getElementById("puesto").value;
 
@@ -21,29 +39,41 @@ export function generar() {
   let out = "";
   const errores = [];
 
-  const oficinasUnicas = [...new Set(oficinas.map(o => o.trim()))];
+  // Eliminar duplicados
+  const oficinasUnicas = [...new Set(lista.map(o => o.trim()))];
 
-  oficinasUnicas.forEach(numero => {
-    if (!numero) return;
+  oficinasUnicas.forEach(valorIngresado => {
+    if (!valorIngresado) return;
 
-    const abrev = oficinasMap[numero];
+    const claveBusqueda = normalizarParaBusqueda(valorIngresado);
 
-    if (!abrev) {
-      errores.push(`Oficina ${numero} no encontrada.`);
+    // 🔍 Buscar oficina en el Excel
+    const oficina = oficinas.find(o =>
+      normalizarParaBusqueda(o.clave) === claveBusqueda
+    );
+
+    if (!oficina) {
+      errores.push(`Oficina ${valorIngresado} no encontrada.`);
       return;
     }
 
-    const direccion = direccionesMap[abrev] || "SIN DIRECCIÓN";
-    const clave = `${abrev}${pad7(usuario)}`;
+    const claveGenerada = `${oficina.nomenclatura}${pad7(usuario)}`;
 
-    out += `PUESTO: ${puesto} ${abrev} ${numero}\nOFICINA: ${numero}    ABREVIATURA: ${abrev}   DIRECCIÓN: ${direccion}\nCLAVE: ${clave}\n\n`;
+    out +=
+`PUESTO: ${puesto} ${oficina.nomenclatura} ${oficina.clave}
+OFICINA: ${oficina.clave}    NOMBRE: ${oficina.nombre}
+DIRECCIÓN: ${oficina.direccion}
+CLAVE: ${claveGenerada}
+
+`;
 
     resultados.push({
-      Puesto: `${puesto} ${abrev} ${numero}`,
-      Oficina: numero,
-      Abreviatura: abrev,
-      Dirección: direccion,
-      Clave: clave
+      Puesto: `${puesto} ${oficina.nomenclatura} ${oficina.clave}`,
+      Oficina: oficina.clave,
+      Nombre: oficina.nombre,
+      Nomenclatura: oficina.nomenclatura,
+      Dirección: oficina.direccion,
+      Clave: claveGenerada
     });
   });
 
@@ -52,5 +82,5 @@ export function generar() {
 }
 
 export function obtenerResultados() {
-    return resultados;
+  return resultados;
 }
