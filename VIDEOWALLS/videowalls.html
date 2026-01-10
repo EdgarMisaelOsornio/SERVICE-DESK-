@@ -4,18 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" type="image/png" href="/logo.jpeg">
-<title>Buscador y Organizador de Videowalls - Versión Robusta</title>
+<title>Buscador y Organizador de Videowalls</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <button class="nav-btn" onclick="history.back()">⬅ Regresar una página</button>
 
-<h1>Buscador y Organizador de Videowalls — Versión Robusta</h1>
+<h1>Buscador y Organizador de Videowalls</h1>
+
+<button class="nav-btn" onclick="window.location.href='/dashboard'">
+  ⬅ Regresar al Inicio
+</button>
 <div class="container">
 
   <div class="section">
-    <h3>1️⃣ Buscar por nombre de oficina</h3>
+    <h3>1️ Buscar por nombre de oficina 1️</h3>
     <textarea id="solicitudes" placeholder="Ejemplo:
 [0001]MEXICO NORTE
 ACAPULCO, PAPAGAYO
@@ -34,7 +37,7 @@ NAVA"></textarea>
   </div>
 
   <div class="section">
-    <h3>2️⃣ Buscar por archivos CSV</h3>
+    <h3>2️ Buscar por archivos CSV 2️</h3>
     <input type="file" id="archivos" multiple accept=".csv"/>
     <button onclick="buscarPorArchivos()">📁 Procesar archivos</button>
     <button onclick="descargarZip()">💾 Descargar ZIP por proveedor</button>
@@ -42,7 +45,7 @@ NAVA"></textarea>
   </div>
 
   <div class="section">
-    <h3>3️⃣ Contactos de Proveedores</h3>
+    <h3>3️ Contactos de Proveedores 3️</h3>
     <table>
       <thead>
         <tr>
@@ -102,6 +105,10 @@ NAVA"></textarea>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <script src="script.js"></script>
+
+<footer>
+  <p>© 2024 Service Desk - Todos los derechos reservados</p>
+</footer>
 
 </body>
 </html>

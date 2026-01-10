@@ -67,7 +67,8 @@ const base = [
   ["APNS1","ZAPOPAN P NORTE SALA 1","MAX"],
   ["ZIHS0","ZIHUATANEJO SALA 1","MAGIC"],
   ["SJLS0","SAN JUAN DE LOS LAGOS SALA UNICA","MAX"],
-  ["QUERETARO CONEXION","QUERETARO SALA CONEXION","TECNOMANIA"]
+  ["QUERETARO CONEXION","QUERETARO SALA CONEXION","TECNOMANIA"],
+  ["TAXQUEÑA","TAXQUEÑA SALA UNICA","TECNOMANIA"]
 ];
 
 // --- UTILIDADES ---
@@ -115,7 +116,7 @@ function buscarPorNombre(){
   barraFill.style.width = "0%";
 
   if(!raw || raw.trim() === ""){
-    resultado.innerHTML = "<p class='no-match'>Ingrese al menos una oficina.</p>";
+    resultado.innerHTML = "<p class='no-match'>❌ Ingrese al menos una oficina.</p>";
     return;
   }
 
@@ -364,5 +365,5 @@ function descargarZip(){
     zip.folder(proveedor).file(archivo.name, archivo);
   });
   zip.generateAsync({type:"blob"}).then(c=>saveAs(c,"Archivos_Videowalls.zip"));
-  zip.generateAsync({type:"blob"}).then(c=>saveAs(c,"Archivos_Videowalls.zip"));
+  
 }
