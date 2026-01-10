@@ -26,12 +26,12 @@ body{
   min-height:100vh;
 }
 
-.container{max-width:920px;margin:0 auto;}
+.container{max-width:990px;margin:0 auto;}
 
 /* Header */
-header{text-align:center;margin-bottom:28px}
-h1{font-size:clamp(26px,4vw,38px);color:var(--primary);margin:0 0 6px;font-weight:700}
-.subtitle{color:var(--secondary);margin:0;font-size:15px}
+header{text-align:center;margin-bottom:8px; margin-top:-35px; background: #212421; border-radius: 20px ;}
+h1{font-size:clamp(26px,4vw,38px);color:#fff;margin:0 0 6px;font-weight:700 ; color: #fff;}
+.subtitle{color:var( --card-bg);margin:0;font-size:15px}
 
 /* Card */
 .card{
@@ -73,21 +73,21 @@ input[type=text]:focus,select:focus{outline:none;border-color:var(--primary);box
 /* Actions */
 .actions{display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}
 button{
-  background:var(--primary);color:#fff;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:15px;
+  background:#212529;color:#fff;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:15px;
   box-shadow:0 6px 14px rgba(2,6,23,0.06);
 }
 button[disabled]{opacity:.6;cursor:not-allowed}
-button.ghost{background:transparent;color:var(--primary);border:1px solid rgba(0,123,255,0.16)}
+button.ghost{background:transparent;color:#212529;border:1px solid rgba(0,123,255,0.16)}
 button.ghost:hover{background:rgba(0,123,255,0.04)}
 .copyField{margin-top:10px;padding:8px 10px;font-size:13px;border-radius:8px;background:transparent;border:1px solid rgba(0,0,0,0.06);cursor:pointer}
 
 /* Output */
 .card hr{border:none;border-top:1px solid #eef2f5;margin:20px 0}
 .output{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
-.field{background:#cde9d5;padding:14px;border-radius:10px;border:1px solid #212529;position:relative;overflow:hidden}
+.field{background:var(--background);padding:14px;border-radius:10px;border:1px solid #212529;position:relative;overflow:hidden}
 .field .small{font-size:12px;color:var(--secondary);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
 .field::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--primary)}
-.citas-field{background:#cde9d5;border:1px solid #212529}
+.citas-field{background:var(--background);border:1px solid #212529}
 .citas-field::before{background:var(--success)}
 .field .generated{font-size:16px;font-weight:700;color:#212529;word-break:break-all}
 
@@ -107,7 +107,7 @@ button.ghost:hover{background:rgba(0,123,255,0.04)}
         display: inline-block;
         margin: 10px;
         padding: 12px 20px;
-        background-color: #007bff;
+        background-color: #212529;
         color: white;
         font-size: 16px;
         border: none;
@@ -119,17 +119,11 @@ button.ghost:hover{background:rgba(0,123,255,0.04)}
         background-color: #0056b3;
     }
     
-      footer {
-        
+footer {
+        margin-top: 25px;
+        padding: 20px;
+        background: #222;
+        color: white;
         text-align: center;
-        margin: 20px 0;
-        font-size: 15px;
-        color: #212529;
-        border: 1px solid #212529;
-        padding: 10px;
-        border-radius: 22px;
-        max-width: 500px;
-        margin-left: 750px;
-
-        
-    }
+        font-size: 14px;
+}
